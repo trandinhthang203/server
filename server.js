@@ -10,6 +10,10 @@ app.get('/', (req, res)=>{
   res.json("Xin chao dinh thang")
 })
 
+app.get('/home', (req, res)=>{
+  res.json("HOME")
+})
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
