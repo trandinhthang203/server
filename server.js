@@ -6,6 +6,13 @@ var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 
+const mongoose = require('mongoose')
+require('./fruitsModel');
+
+mongoose.connect('mongodb://localhost:27017/fruits', {})
+.then(()=>console.log('>>>>> DB Connected'))
+.catch(err => console.log('>>>> DB Error: ', err));
+
 app.get('/', (req, res)=>{
   res.json("Xin chao dinh thang")
 })
