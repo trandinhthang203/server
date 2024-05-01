@@ -5,7 +5,7 @@ var modelFruit = require('./fruitsModel');
 router.get('/list_fruits', async function (req, res, next) {
     try {
         var data = await modelFruit.find();
-        res.json(data);
+        res.json({ fruits: data });
     } catch (error) {
         console.error("Error occurred:", error);
         res.status(500).json({ error: 'Internal server error' });
