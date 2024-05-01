@@ -9,6 +9,9 @@ app.use(bodyParser.json())
 const mongoose = require('mongoose')
 require('./fruitsModel');
 
+var fruitsAPI = require('./fruitsAPI');
+app.use('/fruits', fruitsAPI)
+
 mongoose.connect('mongodb://localhost:27017/fruits', {})
 .then(()=>console.log('>>>>> DB Connected'))
 .catch(err => console.log('>>>> DB Error: ', err));

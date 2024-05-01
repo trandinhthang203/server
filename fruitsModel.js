@@ -7,4 +7,4 @@ const fruit = new Schema({
     weight: {type : Number}
 });
 
-module.exports = mongoose.models.fruit || mongoose.model('fruit', fruit)
+module.exports = mongoose.models.fruits || mongoose.model('fruits', fruit)
