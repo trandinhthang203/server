@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 var bodyParser = require('body-parser')
+var cors = require('cors')
 
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
@@ -12,7 +13,13 @@ require('./fruitsModel');
 var fruitsAPI = require('./fruitsAPI');
 app.use('/fruits', fruitsAPI)
 
-mongoose.connect('mongodb://localhost:27017/fruits', {})
+var corsOptionsDelegate = function(req, callback){
+  var corsOptions = {origin: true}
+  callback(null, corsOptions)
+}
+app.use(cors(corsOptionsDelegate));
+
+mongoose.connect('mongodb+srv://tranthangkhuong203:.pcbdHNLu*P8CHs@cluster0.kulyuvf.mongodb.net/fruits', {})
 .then(()=>console.log('>>>>> DB Connected'))
 .catch(err => console.log('>>>> DB Error: ', err));
 
