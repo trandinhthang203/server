@@ -14,14 +14,19 @@ router.get('/list_fruits', async function (req, res, next) {
 
 router.post('/receive_fruits', async function (req, res) {
     try {
-        var { name, weight } = req.body;
-        var fruit = { name, weight };
-        var result = await modelFruit.create(fruit)
-        console.log(result)
-        if (result != null) {
-            res.json({ status: 1, message: "Thanh cong" });
+        const { name, weight } = req.body;
+        
+        const fruit = new modelFruit({
+            name: name,
+            weight: weight
+        });
+
+        const result = await fruit.save();
+        
+        if (result) {
+            res.json({ status: 1, message: "Dữ liệu đã được lưu vào cơ sở dữ liệu thành công." });
         } else {
-            res.json({ status: 0, message: "That bai" });
+            res.json({ status: 0, message: "Lưu dữ liệu vào cơ sở dữ liệu thất bại." });
         }
     } catch (error) {
         console.error("Error occurred:", error);
