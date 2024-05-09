@@ -24,9 +24,11 @@ router.post('/receive_fruits', async function (req, res) {
         const result = await fruit.save();
         
         if (result) {
-            res.json({ status: 1, message: "Dữ liệu đã được lưu vào cơ sở dữ liệu thành công." });
+            // res.json({ status: 1, message: "Dữ liệu đã được lưu vào cơ sở dữ liệu thành công." });
+            res.send('Data received successfully');
         } else {
-            res.json({ status: 0, message: "Lưu dữ liệu vào cơ sở dữ liệu thất bại." });
+            // res.json({ status: 0, message: "Lưu dữ liệu vào cơ sở dữ liệu thất bại." });
+            res.send('Data received successfully');
         }
     } catch (error) {
         console.error("Error occurred:", error);
