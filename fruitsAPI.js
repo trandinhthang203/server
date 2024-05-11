@@ -98,7 +98,21 @@ router.post('/receive_fruits', async function (req, res) {
 //     }
 // });
 
+router.post('/delete_fruits', async function (req, res) {
+    try {
+        const { value } = req.body;
 
+        if (value && value === "oke") {
+            await modelFruit.deleteMany({});
+            res.json({ status: 1, message: "Dữ liệu đã được xóa khỏi cơ sở dữ liệu thành công." });
+        } else {
+            res.status(400).json({ error: 'Bad Request - Giá trị không hợp lệ hoặc thiếu.' });
+        }
+    } catch (error) {
+        console.error("Error occurred:", error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 
 
