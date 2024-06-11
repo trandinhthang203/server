@@ -12,7 +12,54 @@ router.get('/list_fruits', async function (req, res, next) {
     }
 });
 
+// let tempData = {};
+// router.post('/receive_fruits', async function (req, res) {
+//     try {
+//         const { name, weight } = req.body;
+
+//         console.log("name", name);
+//         console.log("weight", weight);
+
+//         if (name !== undefined || weight !== undefined) {
+//             if (name !== undefined && weight === undefined) {
+//                 tempData.name = name;
+//             }
+//             if (weight !== undefined && name === undefined) {
+//                 tempData.weight = weight;
+//             }
+
+//             if (tempData.name !== undefined && tempData.weight !== undefined) {
+//                 const existingFruit = await modelFruit.findOne({ name: tempData.name });
+
+//                 if (existingFruit) {
+//                     existingFruit.weight += tempData.weight;
+//                     await existingFruit.save();
+//                     res.json({ status: 1, message: "Dữ liệu đã được cập nhật vào cơ sở dữ liệu thành công." });
+//                 } else {
+//                     const fruit = new modelFruit({
+//                         name: tempData.name,
+//                         weight: tempData.weight
+//                     });
+//                     await fruit.save();
+//                     res.json({ status: 1, message: "Dữ liệu đã được lưu vào cơ sở dữ liệu thành công." });
+//                 }
+
+//                 tempData = {};
+//             } else {
+//                 res.json({ status: 1, message: "Dữ liệu đã được nhận thành công. Đang chờ dữ liệu từ client khác." });
+//             }
+//         } else {
+//             res.status(400).json({ error: 'Bad Request - Thiếu thông tin về tên hoặc trọng lượng của trái cây.' });
+//         }
+//     } catch (error) {
+//         console.error("Error occurred:", error);
+//         res.status(500).json({ error: 'Internal server error' });
+//     }
+// });
+
 let tempData = {};
+let timeoutId;
+
 router.post('/receive_fruits', async function (req, res) {
     try {
         const { name, weight } = req.body;
@@ -21,6 +68,8 @@ router.post('/receive_fruits', async function (req, res) {
         console.log("weight", weight);
 
         if (name !== undefined || weight !== undefined) {
+            clearTimeout(timeoutId);
+
             if (name !== undefined && weight === undefined) {
                 tempData.name = name;
             }
@@ -47,6 +96,11 @@ router.post('/receive_fruits', async function (req, res) {
                 tempData = {};
             } else {
                 res.json({ status: 1, message: "Dữ liệu đã được nhận thành công. Đang chờ dữ liệu từ client khác." });
+
+                timeoutId = setTimeout(() => {
+                    console.log("Timeout: Clearing tempData due to incomplete data.");
+                    tempData = {};
+                }, 5000);
             }
         } else {
             res.status(400).json({ error: 'Bad Request - Thiếu thông tin về tên hoặc trọng lượng của trái cây.' });
@@ -56,6 +110,8 @@ router.post('/receive_fruits', async function (req, res) {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
 
 // router.post('/receive_fruits', async function (req, res) {
 //     try {
